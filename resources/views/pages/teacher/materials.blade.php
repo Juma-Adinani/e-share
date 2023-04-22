@@ -44,7 +44,7 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">List of school materials</h4>
+            <h4 class="card-title">My uploaded materials</h4>
             <div class="table-responsive pt-3">
                 <table class="table table-bordered">
                     <thead>

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classes;
-use Illuminate\Http\Request;
-use App\Models\Role;
 use App\Models\School;
+use App\Models\Student;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +26,7 @@ class AuthController extends Controller
             'firstname' => 'required|string|max:255',
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'nullable|email|unique:users,email',
             'phone' => 'required|string|unique:users,phone',
             'gender' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
@@ -45,7 +45,7 @@ class AuthController extends Controller
 
         if ($user) {
             Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'Welcome!');
+            return redirect()->route('select-school')->with('success', 'Welcome!');
         }
 
         return redirect()->back()->withInput()->with('error', 'Registration failed. Please try again.');
@@ -58,10 +58,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
+        $request->validate([
+            'email_or_phone' => 'required',
             'password' => 'required',
         ]);
+
+        $fieldType = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+        $credentials = [
+            $fieldType => $request->email_or_phone,
+            'password' => $request->password,
+        ];
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -71,7 +78,6 @@ class AuthController extends Controller
                 'id' => $authenticatedUser->id,
                 'username' => $authenticatedUser->firstname . ' ' . $authenticatedUser->lastname,
                 'roleId' => $authenticatedUser->role_id,
-                'email' => $authenticatedUser->email,
                 'phone' => $authenticatedUser->phone,
             ]);
             if (session('roleId') == 1) {
@@ -84,7 +90,11 @@ class AuthController extends Controller
                 return redirect()->route('t-home')->with('success', session('username'));
             }
             if (session('roleId') == 4) {
-                return redirect()->intended('/student/home')->with('success', session('username'));
+                $hasSchool = Student::where('user_id', session('id'))->get();
+                if ($hasSchool->isEmpty()) {
+                    return redirect()->route('select-school')->with('success', 'Welcome! ' . session('username'));
+                }
+                return redirect()->intended('/student/home')->with('success', 'Welcome! ' . session('username'));
             }
         } else {
             $errorMessage = __('auth.failed');
@@ -109,5 +119,25 @@ class AuthController extends Controller
         $schools = School::all();
         $classes = Classes::all();
         return view('pages.auth.select_school', compact('schools', 'classes'));
+    }
+
+    public function selectSchool(Request $request)
+    {
+        $data = $request->validate([
+            'school' => 'required',
+            'class' => 'required'
+        ]);
+
+        $student = Student::create([
+            'school_id' => $data['school'],
+            'class_id' => $data['class'],
+            'user_id' => session('id')
+        ]);
+
+        if (!$student) {
+            return redirect()->back()->withInput()->with('error', 'Failed to save');
+        }
+
+        return redirect()->intended('/student/home')->with('success', 'Welcome! ' . session('username'));
     }
 }

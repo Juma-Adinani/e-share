@@ -151,11 +151,18 @@ class SchoolAdminController extends Controller
     {
         $schoolId = $this->getSchoolId();
 
-        $materials = ExamMaterialDocument::with('teachers')->with('exam_categories')->with('exam_materials')->with('classes')->with('subjects')->get()->toArray();
+        $materials = ExamMaterialDocument::with('teachers')
+                    ->with('exam_categories')
+                    ->with('exam_materials')
+                    ->with('classes')
+                    ->with('subjects')
+                    ->join('teachers', 'teachers.id', '=', 'exam_material_documents.teacher_id')
+                    ->join('users', 'users.id', '=', 'teachers.user_id')
+                    ->where('teachers.school_id', '=', $schoolId)
+                    ->get()
+                    ->toArray();
 
-        // SELECT document FROM exam_material_documents, subjects,classes,users,teachers,exam_materials,examination_categories WHERE exam_material_documents.subject_id = subjects.id AND exam_material_documents.class_id = classes.id AND exam_material_documents.exam_id = examination_categories.id AND exam_material_documents.material_id = exam_materials.id AND teachers.user_id = users.id AND teachers.school_id = 4;
-
-        dd($materials);
-        return view('pages.school_admin.materials');
+        // dd($materials);
+        return view('pages.school_admin.materials', compact('materials'));
     }
 }

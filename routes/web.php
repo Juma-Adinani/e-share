@@ -3,6 +3,8 @@
 use App\Http\Controllers\admin\AdminHomeController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\schooladmin\SchoolAdminController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\student\StudentDashboardController;
 use App\Http\Controllers\teacher\TeacherDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +56,15 @@ Route::post('/teacher/material/save', [TeacherDashboardController::class, 'uploa
 
 // student routes
 Route::get('/student/select-school', [AuthController::class, 'selectSchoolForm'])->name('select-school');
+Route::get('/student/home', [StudentDashboardController::class, 'index'])->name('st-home');
+Route::get('/student/schools', [StudentDashboardController::class, 'schools'])->name('school-list');
+
+Route::post('/student/select-school/save', [AuthController::class, 'selectSchool'])->name('student-school');
+
+//school routes
+Route::get('/school/{schoolid}/school-materials', [SchoolController::class, 'getMaterials'])->name('school-materials');
+Route::get('/school/materials/{materialid}/detail', [SchoolController::class, 'materialDetail'])->name('material-detail');
+
 
 // shared routes
 Route::get('/register', [AuthController::class, 'register_form'])->name('register');
@@ -61,7 +72,9 @@ Route::get('/login', [AuthController::class, 'login_form'])->name('login');
 Route::post('/register-user', [AuthController::class, 'register'])->name('registeruser');
 Route::post('/login-user', [AuthController::class, 'login'])->name('loginuser');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/blank', function(){
+    return view('blankPage');
+});
 Route::any('{query}', function () {
     return view('/pages/auth/404');
 })->where('query', '.*');

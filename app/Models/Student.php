@@ -9,6 +9,8 @@ class Student extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function schools()
     {
         return $this->belongsTo(School::class);

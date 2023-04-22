@@ -51,10 +51,15 @@ class TeacherDashboardController extends Controller
 
         $subjects = TeacherSubject::select('subject_id', 'subject_name')->join('subjects', 'subjects.id', '=', 'teacher_subjects.subject_id')->where('teacher_id', $teacherId)->get()->groupBy('subject_id');
 
-        $materials = ExamMaterialDocument::where('user_id', $userId)
+        $materials = ExamMaterialDocument::with('teachers')
             ->with('exam_categories')->with('subjects')
             ->with('exam_materials')->with('classes')
-            ->orderBy('created_at')->get()->toArray();
+            ->where('teachers.user_id', $userId)
+            ->join('teachers', 'teachers.id', '=', 'exam_material_documents.teacher_id')
+            ->orderBy('exam_material_documents.created_at')->get()->toArray();
+
+        // $materials = ExamMaterialDocument::join('teachers', 'teachers.id', '=', 'exam_material_documents.teacher_id')->where('teachers.user_id', '=', $userId)->get();
+
 
         $exams = ExaminationCategory::where('id', '!=', 1)->where('id', '!=', 2)->get();
         // dd($materials);
@@ -65,7 +70,7 @@ class TeacherDashboardController extends Controller
     public function uploadMaterial(Request $request)
     {
 
-        $userId = $this->getUserId();
+        $teacherId = Teacher::where('user_id', $this->getUserId())->first()->id;
 
         if ($request->input('material_id') == 4) {
 
@@ -87,7 +92,7 @@ class TeacherDashboardController extends Controller
                 'exam_id' => ['required', 'numeric'],
                 'title' => ['required', 'string', 'max:255'],
                 'thumbnail' => ['required', 'image', 'max:2048', 'mimes:jpeg,jpg,png,JPEG, PNG, GIF'],
-                'document' => ['required', 'file', 'max:4096', 'mimes:pdf,doc,docx,PDF, DOC'],
+                'document' => ['required', 'file', 'max:12288', 'mimes:pdf,PDF'],
                 'subject' => ['required', 'numeric'],
                 'class' => ['required', 'numeric'],
                 'year' => ['required', 'date_format:Y', 'before_or_equal:' . date('Y')],
@@ -101,7 +106,7 @@ class TeacherDashboardController extends Controller
             $material->subject_id = $request->input('subject');
             $material->class_id = $request->input('class');
             $material->year = $request->input('year');
-            $material->user_id = $userId;
+            $material->teacher_id = $teacherId;
             $material->material_id = $request->input('material_id');
             $material->exam_id = $request->input('exam_id');
 

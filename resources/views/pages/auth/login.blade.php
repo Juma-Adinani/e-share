@@ -9,9 +9,9 @@
 <form class="pt-3" action="{{route('loginuser')}}" method="POST">
     @csrf
     <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="enter email" value="{{old('email')}}" />
-        @error('email')
+        <label for="email">Email address or phone number</label>
+        <input type="text" name="email_or_phone" class="form-control form-control-lg" id="email_or_phone" placeholder="enter email or phone number" value="{{old('email_or_phone')}}" />
+        @error('email_or_phone')
         <div class="text-danger">{{$message}}</div>
         @enderror
     </div>

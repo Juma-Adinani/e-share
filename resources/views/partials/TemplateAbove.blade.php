@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+@if(!session('id'))
+<script>
+    window.location.href = "/login";
+</script>
+@endif
+
 @include('partials._head_tag')
 
 <body>

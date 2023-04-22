@@ -29,27 +29,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        if (count($materials) == 0)
+                        @if (count($materials) == 0)
                         <tr>
-                            <td colspan="8" class="bg-secondary">No document material posted!</td>
+                            <td colspan="9" class="bg-secondary">No document material posted!</td>
                         </tr>
-                        else
-                        foreach ($materials as $material)
+                        @else
+                        @foreach ($materials as $material)
                         <tr>
-                            <td>$loop->iteration</td>
-                            <td>$material['title']</td>
-                            <td>$material['subjects']['subject_name']</td>
-                            <td>$material['exam_materials']['material_type']</td>
-                            <td>$material['exam_categories']['exam_type']</td>
-                            <td>$material['year']</td>
-                            <td>\Carbon\Carbon::parse($material['created_at'])->format('M d, Y h:i A')
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$material['title']}}</td>
+                            <td>{{$material['subjects']['subject_name']}}</td>
+                            <td>{{$material['exam_materials']['material_type']}}</td>
+                            <td>{{$material['exam_categories']['exam_type']}}</td>
+                            <td>{{$material['year']}}</td>
+                            <td>Mwl. {{$material['firstname']}}&nbsp;{{$material['middlename']}}&nbsp;{{$material['lastname']}}</td>
+                            <td>{{\Carbon\Carbon::parse($material['created_at'])->format('M d, Y h:i A')}}
                             </td>
                             <td>
                                 hello world!
                             </td>
                         </tr>
-                        endforeach
-                        endif
+                        @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>

@@ -147,7 +147,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$teacher->users->firstname}} {{$teacher->users->middlename}} {{$teacher->users->lastname}}</td>
                             <td>{{$teacher->users->email}}</td>
-                            <td>+255{{$teacher->users->phone}}</td>
+                            <td>{{$teacher->users->phone}}</td>
                             <td>{{$teacher->users->created_at}}</td>
                             <td class="d-flex flex-row">
                                 <a href="" class="nav-link" type="button" data-toggle="modal" data-target="#assignModal{{$teacher->id}}">
@@ -175,6 +175,5 @@
         </div>
     </div>
 </div>
-
 
 @endsection

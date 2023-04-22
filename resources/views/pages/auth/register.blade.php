@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="firstname">Firstname</label>
+                <label for="firstname">Firstname&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
                 <input type="text" name="firstname" class="form-control form-control-lg" id="firstname" placeholder="enter firstname" value="{{old('firstname')}}">
                 @error('firstname')
                 <div class="text-danger">{{$message}}</div>
@@ -17,12 +17,43 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="lastname">Lastname</label>
+                <label for="middlename">Middlename</label>
+                <input type="text" name="middlename" class="form-control form-control-lg" id="middlename" placeholder="enter middlename" value="{{old('middlename')}}">
+                @error('middlename')
+                <div class=" text-danger">{{$message}}
+                </div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname">Lastname&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
                 <input type="text" name="lastname" class="form-control form-control-lg" id="lastname" placeholder="enter lastname" value="{{old('lastname')}}">
                 @error('lastname')
                 <div class=" text-danger">{{$message}}
                 </div>
                 @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Gender:&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
+                <div class="input-group">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="gender" id="male" value="M" />
+                            Male
+                        </label>
+                    </div>
+                    <div class="form-check ml-5">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="gender" id="female" value="F" />
+                            Female
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -39,7 +70,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="phone">Phone Number</label>
+                <label for="phone">Phone Number&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">+255</span>
@@ -55,7 +86,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Password&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
                 <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="enter password">
                 @error('password')
                 <div class="text-danger">{{$message}}</div>
@@ -64,32 +95,11 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="confirmpassword">Confirm password</label>
+                <label for="confirmpassword">Confirm password&nbsp;<sup class="text-danger" style="font-size:15px">*</sup></label>
                 <input type="password" name="password_confirmation" class="form-control form-control-lg" id="confirmpassword" placeholder="Repeat password">
                 @error('password')
                 <div class="text-danger">{{$message}}</div>
                 @enderror
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Gender:</label>
-                <div class="input-group">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="gender" id="male" value="M" />
-                            Male
-                        </label>
-                    </div>
-                    <div class="form-check ml-5">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="gender" id="female" value="F" />
-                            Female
-                        </label>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
