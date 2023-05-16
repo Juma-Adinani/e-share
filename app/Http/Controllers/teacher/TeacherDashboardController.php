@@ -93,6 +93,7 @@ class TeacherDashboardController extends Controller
                 'title' => ['required', 'string', 'max:255'],
                 'thumbnail' => ['required', 'image', 'max:2048', 'mimes:jpeg,jpg,png,JPEG, PNG, GIF'],
                 'document' => ['required', 'file', 'max:12288', 'mimes:pdf,PDF'],
+                'scheme' => ['required', 'file', 'max:12288', 'mimes:pdf,PDF'],
                 'subject' => ['required', 'numeric'],
                 'class' => ['required', 'numeric'],
                 'year' => ['required', 'date_format:Y', 'before_or_equal:' . date('Y')],
@@ -123,6 +124,13 @@ class TeacherDashboardController extends Controller
                 $documentName = time() . '_' . $request->file('document')->getClientOriginalName();
                 $documentPath = $request->file('document')->move(public_path('exam_materials'), $documentName);
                 $material->document = 'exam_materials/' . $documentName;
+            }
+
+            if ($request->hasFile('scheme')) {
+                $documentExtension = $request->file('scheme')->getClientOriginalExtension();
+                $markingSchemeName = time() . '_' . $request->file('scheme')->getClientOriginalName();
+                $documentPath = $request->file('scheme')->move(public_path('marking_schemes'), $markingSchemeName);
+                $material->marking_scheme = 'marking_schemes/' . $markingSchemeName;
             }
 
             $material->save();

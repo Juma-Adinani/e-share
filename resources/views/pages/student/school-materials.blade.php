@@ -29,7 +29,7 @@
             </div> -->
             <div class="row">
                 @foreach($materials as $material)
-                <a href="{{route('material-detail', ['materialid' => $material['id']])}}" class="col-md-4 grid-margin stretch-card">
+                <div class="col-md-4 grid-margin stretch-card">
                     <div class="card shadow">
                         <center class="card-text mt-2 text-muted"> {{$material['subject_name']}}
                         </center>
@@ -40,9 +40,18 @@
                                 {{$material['material_type']}}
                             </div>
                             <p class="card-text text-muted"><b>Posted:&nbsp;</b>{{ \Carbon\Carbon::parse($material['posted_at'])->diffForHumans() }}</p>
+                            @if($material['marking_scheme'] != 'null')
+                            <a href="{{route('scheme-detail', ['materialid' => $material['id']])}}" class="text-primary fs-sm">
+                                <i class="fa fa-eye text-primary"></i>&nbsp;marking scheme
+                            </a>
+                            <br>
+                            @endif
+                            <a href="{{route('material-detail', ['materialid' => $material['id']])}}" class="text-success">
+                                <i class="fa fa-eye text-success"></i>&nbsp;view document
+                            </a>
                         </div>
                     </div>
-                </a>
+                </div>
                 @endforeach
             </div>
             @endif

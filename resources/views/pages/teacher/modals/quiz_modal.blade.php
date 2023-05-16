@@ -20,7 +20,7 @@
                     <input type="text" name="exam_id" id="" value="1" class="form-control" hidden>
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="title">title</label>
                                     <input type="text" name="title" class="form-control form-control-lg" id="title" placeholder="enter title (e.g Biology examination)" value="{{old('title')}}">
@@ -29,7 +29,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="thumbnail">Cover image</label>
                                     <input type="file" name="thumbnail" class="form-control form-control-lg" id="thumbnail" placeholder="enter document" value="{{old('thumbnail')}}">
@@ -39,11 +39,21 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="document">Material document</label>
                                     <input type="file" name="document" class="form-control form-control-lg" id="document" placeholder="enter document" value="{{old('document')}}">
                                     @error('document')
+                                    <div class=" text-danger">{{$message}}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="scheme">Marking scheme</label>
+                                    <input type="file" name="scheme" class="form-control form-control-lg" id="scheme" placeholder="enter scheme" value="{{old('scheme')}}">
+                                    @error('scheme')
                                     <div class=" text-danger">{{$message}}
                                     </div>
                                     @enderror

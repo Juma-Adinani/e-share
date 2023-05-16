@@ -76,7 +76,7 @@
                             <td>{{ \Carbon\Carbon::parse($material['created_at'])->format('M d, Y h:i A') }}
                             </td>
                             <td>
-                                hello world!
+                                <span class="badge badge-primary"><i class="fa fa-eye"></i> view </span>
                             </td>
                         </tr>
                         @endforeach

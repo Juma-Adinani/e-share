@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('thumbnail');
             $table->text('document');
+            $table->text('marking_scheme')->nullable()->default('null');
             $table->foreignId('material_id')->constrained('exam_materials');
             $table->foreignId('exam_id')->constrained('examination_categories')->onUpdate('cascade');
             $table->string('year');

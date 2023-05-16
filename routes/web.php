@@ -23,9 +23,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [AuthController::class, 'getRoles'])->name('dashboard');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/dashboard', [AuthController::class, 'getRoles'])->name('dashboard');
+// });
 
 //admin routes
 Route::get('/admin/home', [AdminHomeController::class, 'index'])->name('home');
@@ -63,7 +63,8 @@ Route::post('/student/select-school/save', [AuthController::class, 'selectSchool
 
 //school routes
 Route::get('/school/{schoolid}/school-materials', [SchoolController::class, 'getMaterials'])->name('school-materials');
-Route::get('/school/materials/{materialid}/detail', [SchoolController::class, 'materialDetail'])->name('material-detail');
+Route::get('/school/materials/{materialid}/document', [SchoolController::class, 'materialDetail'])->name('material-detail');
+Route::get('/school/materials/{materialid}/marking-scheme', [SchoolController::class, 'schemeDetail'])->name('scheme-detail');
 
 
 // shared routes
@@ -72,7 +73,7 @@ Route::get('/login', [AuthController::class, 'login_form'])->name('login');
 Route::post('/register-user', [AuthController::class, 'register'])->name('registeruser');
 Route::post('/login-user', [AuthController::class, 'login'])->name('loginuser');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/blank', function(){
+Route::get('/blank', function () {
     return view('blankPage');
 });
 Route::any('{query}', function () {
